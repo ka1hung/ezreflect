@@ -6,8 +6,7 @@ Easy Reflect tools make reflect more easier to use.
 go get github.com/ka1hung/ezreflect
 ```
 
-## sample 1 
-list struct field names
+## sample1: list struct field infomations
 ```go
 package main
 
@@ -43,8 +42,55 @@ func main() {
 	//list struct field tags
 	fmt.Println(ezreflect.GetFieldTags(a))
 }
+```
 
+### sample2: operate the struct fields
+```go
+package main
 
+import (
+	"fmt"
+
+	"github.com/ka1hung/ezreflect"
+)
+
+type structA struct {
+	AAA string  `tag:"aaa"`
+	BBB int     `tag:"bbb"`
+	CCC float64 `tag:"ccc"`
+	DDD bool    `tag:"ddd"`
+}
+
+type structB struct {
+	AAA string `tag:"aaa"`
+	BBB int    `tag:"bbb"`
+}
+
+func main() {
+	a := structA{
+		AAA: "hello",
+		BBB: 123,
+		CCC: 0.123,
+		DDD: true,
+	}
+
+	//struct field copy by names
+	b := structB{}
+	ezreflect.FieldCopyByNames(&a,
+		&b,
+		ezreflect.GetFieldNames(b))
+	fmt.Println(b)
+
+	//struct field parse by map data
+	ezreflect.FieldParseFromString(&a,
+		map[string]string{
+			"AAA": "hahaha",
+			"BBB": "999",
+			"CCC": "-1.002",
+			"DDD": "false",
+		})
+	fmt.Println(a)
+}
 ```
 
 Hope you like it.
