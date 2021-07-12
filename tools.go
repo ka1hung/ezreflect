@@ -92,8 +92,8 @@ func GetFieldDataString(data interface{}) map[string]string {
 	return m
 }
 
-//GetFieldTag input a struct data then return the map(key:FieldName val:FieldValue In String) of data.
-func GetFieldTag(data interface{}) map[string]string {
+//GetFieldTags input a struct data then return the map(key:FieldName val:FieldValue In String) of data.
+func GetFieldTags(data interface{}) map[string]string {
 	t := wrapTypeOf(data)
 
 	m := map[string]string{}

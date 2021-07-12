@@ -9,24 +9,41 @@ go get github.com/ka1hung/ezreflect
 ## sample 1 
 list struct field names
 ```go
-package main 
+package main
 
-import(
-    github.com/ka1hung/ezreflect
+import (
+	"fmt"
+
+	"github.com/ka1hung/ezreflect"
 )
 
-type structA struct{
-    AAA string
-    BBB int
-    CCC float64
-    DDD bool
+type structA struct {
+	AAA string  `tag:"aaa"`
+	BBB int     `tag:"bbb"`
+	CCC float64 `tag:"ccc"`
+	DDD bool    `tag:"ddd"`
 }
 
-func main(){
-    a:=structA{}
-    ns:=ezreflect.GetFieldNames(&a)
-    fmt.Println(ns)
+func main() {
+	a := structA{
+		AAA: "hello",
+		BBB: 123,
+		CCC: 0.123,
+		DDD: true,
+	}
+	//list struct field names
+	fmt.Println(ezreflect.GetFieldNames(a))
+
+	//list struct field types
+	fmt.Println(ezreflect.GetFieldTypes(a))
+
+	//list struct field values
+	fmt.Println(ezreflect.GetFieldDataString(a))
+
+	//list struct field tags
+	fmt.Println(ezreflect.GetFieldTags(a))
 }
+
 
 ```
 
