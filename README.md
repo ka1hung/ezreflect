@@ -76,19 +76,22 @@ func main() {
 
 	//struct field copy by names
 	b := structB{}
-	ezreflect.FieldCopyByNames(&a,
-		&b,
-		ezreflect.GetFieldNames(b))
+	ezreflect.FieldCopy(&a, &b)
 	fmt.Println(b)
 
+	//struct field copy by names
+	bb := structB{}
+	ezreflect.FieldCopyByNames(&a, &bb, []string{"AAA"})
+	fmt.Println(bb)
+
 	//struct field parse by map data
-	ezreflect.FieldParseFromString(&a,
-		map[string]string{
-			"AAA": "hahaha",
-			"BBB": "999",
-			"CCC": "-1.002",
-			"DDD": "false",
-		})
+	m := map[string]string{
+		"AAA": "hahaha",
+		"BBB": "999",
+		"CCC": "-1.002",
+		"DDD": "false",
+	}
+	ezreflect.FieldParseFromString(&a, m)
 	fmt.Println(a)
 }
 ```

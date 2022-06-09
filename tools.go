@@ -104,27 +104,97 @@ func GetFieldTags(data interface{}) map[string]string {
 	return m
 }
 
-//FieldCopyByNames input f=from and t=target then copy the fields by names(fs)
-func FieldCopyByNames(f, t interface{}, fs []string) error {
+//FieldCopy input fi=from and ti=target
+func FieldCopy(fi, ti interface{}) error {
+	fs := GetFieldNames(ti)
 	defer func() {
 		if err := recover(); err != nil {
 			fmt.Println(err)
 		}
 	}()
 
-	if reflect.TypeOf(f).Kind() != reflect.Ptr || reflect.TypeOf(t).Kind() != reflect.Ptr {
+	if reflect.TypeOf(fi).Kind() != reflect.Ptr || reflect.TypeOf(ti).Kind() != reflect.Ptr {
 		return fmt.Errorf("input data should be a point")
 	}
 
-	from := reflect.ValueOf(f).Elem()
-	to := reflect.ValueOf(t).Elem()
+	from := reflect.ValueOf(fi).Elem()
+	to := reflect.ValueOf(ti).Elem()
 	for _, f := range fs {
-		// fieldName := f
-		t, ok := reflect.TypeOf(t).Elem().FieldByName(f)
+		// check field name with ti
+		t, ok := reflect.TypeOf(ti).Elem().FieldByName(f)
 		if !ok {
-			// return fmt.Errorf("field not exist")
 			continue
 		}
+		// check field name with fi
+		_, ok = reflect.TypeOf(fi).Elem().FieldByName(f)
+		if !ok {
+			continue
+		}
+
+		fieldType := t.Type.Kind()
+		switch fieldType {
+		case reflect.String:
+			to.FieldByName(f).SetString(from.FieldByName(f).String())
+		case reflect.Float64:
+			to.FieldByName(f).SetFloat(from.FieldByName(f).Float())
+		case reflect.Float32:
+			to.FieldByName(f).SetFloat(from.FieldByName(f).Float())
+		case reflect.Uint:
+			to.FieldByName(f).SetUint(from.FieldByName(f).Uint())
+		case reflect.Uint8:
+			to.FieldByName(f).SetUint(from.FieldByName(f).Uint())
+		case reflect.Uint16:
+			to.FieldByName(f).SetUint(from.FieldByName(f).Uint())
+		case reflect.Uint32:
+			to.FieldByName(f).SetUint(from.FieldByName(f).Uint())
+		case reflect.Uint64:
+			to.FieldByName(f).SetUint(from.FieldByName(f).Uint())
+		case reflect.Int:
+			to.FieldByName(f).SetInt(from.FieldByName(f).Int())
+		case reflect.Int8:
+			to.FieldByName(f).SetInt(from.FieldByName(f).Int())
+		case reflect.Int16:
+			to.FieldByName(f).SetInt(from.FieldByName(f).Int())
+		case reflect.Int32:
+			to.FieldByName(f).SetInt(from.FieldByName(f).Int())
+		case reflect.Int64:
+			to.FieldByName(f).SetInt(from.FieldByName(f).Int())
+		case reflect.Bool:
+			to.FieldByName(f).SetBool(from.FieldByName(f).Bool())
+		default:
+			return fmt.Errorf(fieldType.String() + " type not support")
+		}
+
+	}
+	return nil
+}
+
+//FieldCopyByNames input fi=from and ti=target then copy the fields by names(fs)
+func FieldCopyByNames(fi, ti interface{}, fs []string) error {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println(err)
+		}
+	}()
+
+	if reflect.TypeOf(fi).Kind() != reflect.Ptr || reflect.TypeOf(ti).Kind() != reflect.Ptr {
+		return fmt.Errorf("input data should be a point")
+	}
+
+	from := reflect.ValueOf(fi).Elem()
+	to := reflect.ValueOf(ti).Elem()
+	for _, f := range fs {
+		// check field name with ti
+		t, ok := reflect.TypeOf(ti).Elem().FieldByName(f)
+		if !ok {
+			continue
+		}
+		// check field name with fi
+		_, ok = reflect.TypeOf(fi).Elem().FieldByName(f)
+		if !ok {
+			continue
+		}
+
 		fieldType := t.Type.Kind()
 		switch fieldType {
 		case reflect.String:
