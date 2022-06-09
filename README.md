@@ -77,12 +77,12 @@ func main() {
 	//struct field copy by names
 	b := structB{}
 	ezreflect.FieldCopy(&a, &b)
-	fmt.Println(b)
+	fmt.Printf("%+v\n", b) //{AAA:hello BBB:123}
 
 	//struct field copy by names
 	bb := structB{}
 	ezreflect.FieldCopyByNames(&a, &bb, []string{"AAA"})
-	fmt.Println(bb)
+	fmt.Printf("%+v\n", bb) //{AAA:hello BBB:0}
 
 	//struct field parse by map data
 	m := map[string]string{
@@ -92,7 +92,7 @@ func main() {
 		"DDD": "false",
 	}
 	ezreflect.FieldParseFromString(&a, m)
-	fmt.Println(a)
+	fmt.Printf("%+v\n", a) //{AAA:hahaha BBB:999 CCC:-1.002 DDD:false}
 }
 ```
 
