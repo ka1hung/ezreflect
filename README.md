@@ -74,7 +74,7 @@ func main() {
 		DDD: true,
 	}
 
-	//struct field copy by names
+	//struct field copy 
 	b := structB{}
 	ezreflect.FieldCopy(&a, &b)
 	fmt.Printf("%+v\n", b) //{AAA:hello BBB:123}
