@@ -25,7 +25,7 @@ func wrapValueOf(data interface{}) reflect.Value {
 	return v
 }
 
-//GetFieldNames input a struct data then return the struct field names
+// GetFieldNames input a struct data then return the struct field names
 func GetFieldNames(data interface{}) []string {
 	t := wrapTypeOf(data)
 
@@ -38,7 +38,7 @@ func GetFieldNames(data interface{}) []string {
 	return fs
 }
 
-//GetFieldNames input a struct data then return the struct field types
+// GetFieldNames input a struct data then return the struct field types
 func GetFieldTypes(data interface{}) []string {
 	t := wrapTypeOf(data)
 	fs := []string{}
@@ -50,7 +50,7 @@ func GetFieldTypes(data interface{}) []string {
 	return fs
 }
 
-//GetFieldTypesByMap input a struct data then return the map(key:FieldName val:FieldType) of struct field types.
+// GetFieldTypesByMap input a struct data then return the map(key:FieldName val:FieldType) of struct field types.
 func GetFieldTypesByMap(data interface{}) map[string]string {
 	t := wrapTypeOf(data)
 	m := map[string]string{}
@@ -62,7 +62,7 @@ func GetFieldTypesByMap(data interface{}) map[string]string {
 	return m
 }
 
-//GetFieldData input a struct data then return the map(key:FieldName val:FieldValue) of data.
+// GetFieldData input a struct data then return the map(key:FieldName val:FieldValue) of data.
 func GetFieldData(data interface{}) map[string]interface{} {
 	t := wrapTypeOf(data)
 	v := wrapValueOf(data)
@@ -77,7 +77,7 @@ func GetFieldData(data interface{}) map[string]interface{} {
 	return m
 }
 
-//GetFieldDataString input a struct data then return the map(key:FieldName val:FieldValue In String) of data.
+// GetFieldDataString input a struct data then return the map(key:FieldName val:FieldValue In String) of data.
 func GetFieldDataString(data interface{}) map[string]string {
 	t := wrapTypeOf(data)
 	v := wrapValueOf(data)
@@ -92,7 +92,7 @@ func GetFieldDataString(data interface{}) map[string]string {
 	return m
 }
 
-//GetFieldTags input a struct data then return the map(key:FieldName val:FieldValue In String) of data.
+// GetFieldTags input a struct data then return the map(key:FieldName val:FieldValue In String) of data.
 func GetFieldTags(data interface{}) map[string]string {
 	t := wrapTypeOf(data)
 
@@ -104,7 +104,7 @@ func GetFieldTags(data interface{}) map[string]string {
 	return m
 }
 
-//FieldCopy input fi=from and ti=target
+// FieldCopy input fi=from and ti=target
 func FieldCopy(fi, ti interface{}) error {
 	fs := GetFieldNames(ti)
 	defer func() {
@@ -162,14 +162,14 @@ func FieldCopy(fi, ti interface{}) error {
 		case reflect.Bool:
 			to.FieldByName(f).SetBool(from.FieldByName(f).Bool())
 		default:
-			return fmt.Errorf(fieldType.String() + " type not support")
+			fmt.Println(fieldType.String() + " type not support")
 		}
 
 	}
 	return nil
 }
 
-//FieldCopyByNames input fi=from and ti=target then copy the fields by names(fs)
+// FieldCopyByNames input fi=from and ti=target then copy the fields by names(fs)
 func FieldCopyByNames(fi, ti interface{}, fs []string) error {
 	defer func() {
 		if err := recover(); err != nil {
@@ -226,14 +226,14 @@ func FieldCopyByNames(fi, ti interface{}, fs []string) error {
 		case reflect.Bool:
 			to.FieldByName(f).SetBool(from.FieldByName(f).Bool())
 		default:
-			return fmt.Errorf(fieldType.String() + " type not support")
+			fmt.Println(fieldType.String() + " type not support")
 		}
 
 	}
 	return nil
 }
 
-//FieldParseString parse struct data from  map k=FieldName v=FieldValueString
+// FieldParseString parse struct data from  map k=FieldName v=FieldValueString
 func FieldParseFromString(data interface{}, fs map[string]string) error {
 	defer func() {
 		if err := recover(); err != nil {
@@ -297,14 +297,14 @@ func FieldParseFromString(data interface{}, fs map[string]string) error {
 			o, _ := strconv.ParseBool(s)
 			v.FieldByName(k).SetBool(o)
 		default:
-			return fmt.Errorf(fieldType.String() + " type not support")
+			fmt.Println(fieldType.String() + " type not support")
 		}
 
 	}
 	return nil
 }
 
-//FieldParse parse struct data from  map k=FieldName v=FieldValue
+// FieldParse parse struct data from  map k=FieldName v=FieldValue
 func FieldParse(data interface{}, fs map[string]interface{}) error {
 	defer func() {
 		if err := recover(); err != nil {
@@ -405,7 +405,7 @@ func FieldParse(data interface{}, fs map[string]interface{}) error {
 			v.FieldByName(k).SetBool(s.(bool))
 
 		default:
-			return fmt.Errorf(fieldType.String() + " type not support")
+			fmt.Println(fieldType.String() + " type not support")
 		}
 
 	}
